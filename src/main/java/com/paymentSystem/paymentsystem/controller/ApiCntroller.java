@@ -1,31 +1,21 @@
 package com.paymentSystem.paymentsystem.controller;
 
 import com.paymentSystem.paymentsystem.repo.UserRepo;
-// import com.africastalking.AfricasTalking;
-// import com.africastalking.*;
-// import com.africastalking.payment.response.CheckoutResponse;
-// import com.google.common.net.HttpHeaders;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.paymentSystem.paymentsystem.models.User;
-
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import io.netty.handler.codec.http.HttpContentEncoder.Result;
-
 import java.util.List;
 import java.util.Map;
-
 // import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
-
 // import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,13 +23,11 @@ import com.paymentSystem.paymentsystem.repo.PaymentData;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-// import com.paymentSystem.paymentsystem.beyonic.BeyonicClient;
-// import com.paymentSystem.paymentsystem.beyonic.models.response.Collection;
-// import com.paymentSystem.paymentsystem.beyonic.models.response.CommonBeyonicListResponse;
+
 import org.springframework.http.MediaType;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.core.env.Environment;
+
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -127,7 +115,35 @@ public class ApiCntroller {
 
     }
 
-    
+    @GetMapping(value = "/flutterwave/historytransactions")
+    public Object flutterWaveTransctionHistory() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        String apiKey = "FLWSECK_TEST-91d560bbdcddae17f003cb77bca3acaa-X";
+
+        final String uri = "https://api.flutterwave.com/v3/transactions";
+
+        // create headers
+        HttpHeaders headers = new HttpHeaders();
+
+        // set content-type header
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // set accept header
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        // set authorization header
+        headers.add("Authorization", "Bearer " + apiKey);
+
+        HttpEntity request = new HttpEntity(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+
+        String json = response.getBody();
+        JsonObject convertedObject = new Gson().fromJson(json, JsonObject.class);
+
+        return convertedObject;
+
+    }
 
     @PutMapping(value = "update/{id}")
     public String updateUser(@PathVariable long id, @RequestBody User user) {
