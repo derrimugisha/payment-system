@@ -1,24 +1,55 @@
 package com.paymentSystem.paymentsystem.controller;
 
 import com.paymentSystem.paymentsystem.repo.UserRepo;
+// import com.africastalking.AfricasTalking;
+// import com.africastalking.*;
+// import com.africastalking.payment.response.CheckoutResponse;
+// import com.google.common.net.HttpHeaders;
 import com.paymentSystem.paymentsystem.models.User;
+
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import io.netty.handler.codec.http.HttpContentEncoder.Result;
+
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Map;
+
+// import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+
+// import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import com.paymentSystem.paymentsystem.repo.PaymentData;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+// import com.paymentSystem.paymentsystem.beyonic.BeyonicClient;
+// import com.paymentSystem.paymentsystem.beyonic.models.response.Collection;
+// import com.paymentSystem.paymentsystem.beyonic.models.response.CommonBeyonicListResponse;
+import org.springframework.http.MediaType;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 public class ApiCntroller {
     @Autowired
     private UserRepo userRepo;
+    // private Enviroment env;
+
+    // @Autowired
+    // private Enviroment env;
 
     @GetMapping(value = "/")
     public String getPage() {
@@ -36,13 +67,75 @@ public class ApiCntroller {
         return "saved";
     }
 
+    @PostMapping(value = "/makepayment")
+    public Object paymentBody(@RequestBody PaymentData paymentContainer) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        String api = "FLWSECK_TEST-91d560bbdcddae17f003cb77bca3acaa-X";
+        String url = "https://api.flutterwave.com/v3/charges?type=mobile_money_uganda";
+        // create headers
+        HttpHeaders headers = new HttpHeaders();
+
+        // set content-type header
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // set accept header
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        // set authorization header
+        headers.add("Authorization", "Bearer " + api);
+        // long amount = paymentContainer.getAmount();
+
+        String amount = Long.toString(paymentContainer.getAmount());
+        String currence = paymentContainer.getCurrence();
+        String email = paymentContainer.getEmail();
+        String txRef = paymentContainer.getTxRef();
+        String fullName = paymentContainer.getFullName();
+        String phoneNumber = Long.toString(paymentContainer.getPhoneNumber());
+        String network = paymentContainer.getNework();
+        String redirect = paymentContainer.getRedirectUrl();
+        String paymentOption = paymentContainer.getPaymentOption();
+
+        HashMap<String, String> emptyMap = new HashMap<>();
+        emptyMap.put("message", "Emptyness is returned, meaning error in the code");
+
+        // HashMap<String, String> customer = new HashMap<>();
+        // customer.put("")
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("amount", amount);
+        map.put("currency", currence);
+        map.put("email", email);
+        map.put("tx_ref", txRef);
+        map.put("fullname", fullName);
+        map.put("phone_number", phoneNumber);
+        map.put("network", network);
+        map.put("redirect_url", redirect);
+        // map.put("payment_options", paymentOption);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(map, headers);
+
+        ResponseEntity<Object> result = restTemplate.postForEntity(url, entity, Object.class);
+
+        if (result.getStatusCode() == HttpStatus.OK) {
+            return result.getBody();
+        } else {
+            System.out.print("this is for the error");
+            return result.getBody();
+        }
+
+        // return map;
+
+    }
+
+    
+
     @PutMapping(value = "update/{id}")
     public String updateUser(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepo.findById(id).get();
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());
         userRepo.save(updatedUser);
-        return "Updated.....";
+        return "Updated..... ";
 
     }
 
@@ -57,7 +150,7 @@ public class ApiCntroller {
     public String getTester() {
         final String uri = "https://quoters.apps.pcfone.io/api/random";
         RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri,String.class);
+        String result = restTemplate.getForObject(uri, String.class);
         return result;
     }
 
