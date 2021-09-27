@@ -64,7 +64,7 @@ When the request is made a response is returned and below is the example of the 
         }<br>
     }<br>
 }<br>
-The response that is returned comes with the redierct url that you can be be run in the computer browsesr in order to complete the payment.
+The response that is returned comes with the redirect url that you can  run in the computer browser in order to complete the payment.
 # makepayout end point (POST)
 This is the end point that you call to initiate payouts<br>
 below is the example<br>
