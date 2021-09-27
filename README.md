@@ -15,10 +15,10 @@ After installing and having all the requirements below is how to run the applica
 -Run your MySQL server.<br>
 -from the root folder of the project go to the src/resources/application.properties and add the configurations of your MySQl server<br>
 below are the default configurations of MySQL server:<br>
-spring.datasource.url = jdbc:mysql://<<<localhost:3306>>>/<<<databaseName>>>?useSSL=false&serverTimezone=UTC<br>
+spring.datasource.url = jdbc:mysql://<<<localhost:3306>>>/ <<< database name >>>?useSSL=false&serverTimezone=UTC<br>
 spring.datasource.username=<<<root>>><br>
 spring.datasource.password =<< password >> <br>
-NOTE: configurations that are marked like <<example>> are the ones that need to be changed.<br>
+NOTE: configurations that are marked like <<< example >>> are the ones that need to be changed.<br>
 
 -After setting your configurations for your server in the project, from your commandline in the root folder of the project run this command ./mvnw spring-boot:run.<br>
 -At this point if every thing is done rigth, it should be able to run.<br>
