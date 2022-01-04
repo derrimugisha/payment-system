@@ -1,6 +1,6 @@
 # payment-system API
 
-#INTRODUCTION
+# INTRODUCTION
 
 This is an API that is used to make payment requests to flutter wave API.<br>
 You can intergrate it in project to carry out online payements in your project.
