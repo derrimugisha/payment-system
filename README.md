@@ -16,20 +16,10 @@ VScode chechout https://code.visualstudio.com/docs/java/java-tutorial.<br>
 # CONFIGURING THE API
 
 For the API to start running some configurations have to first be done, find application.properties file which is in payment-system/src/main/resources directory.<br>
-After getting the application.properties file, you fill in the required settings respectively.<br>
+After getting the application.properties file, you fill in the required settings respectively for example your server settings.<br>
 For the sandbox.username and api.key are got from your flutter wave account https://flutterwave.com/.
 
 # RUNNING THE API
-
-After installing and having all the requirements below is how to run the application:<br>
--Open the API application in your VScode.<br>
--Run your MySQL server.<br>
--from the root folder of the project go to the src/resources/application.properties and add the configurations of your MySQl server<br>
-below are the default configurations of MySQL server:<br>
-spring.datasource.url = jdbc:mysql://<<<localhost:3306>>>/ <<< database name >>>?useSSL=false&serverTimezone=UTC<br>
-spring.datasource.username=<<<root>>><br>
-spring.datasource.password =<< password >> <br>
-NOTE: configurations that are marked like <<< example >>> are the ones that need to be changed.<br>
 
 -After setting your configurations for your server in the project, from your commandline in the root folder of the project run this command ./mvnw spring-boot:run.<br>
 -At this point if every thing is done rigth, it should be able to run.<br>
