@@ -9,6 +9,7 @@ import com.paymentSystem.paymentsystem.repo.PayOutData;
 import com.paymentSystem.paymentsystem.models.Transactions;
 import com.paymentSystem.paymentsystem.repo.VerifyData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +39,13 @@ public class ApiCntroller {
     @Autowired
     private TransactionsRepo transactionsRepo;
 
+    @Value("${api.key}")
+    private String appKey;
+
     // this is for testing
     @GetMapping(value = "/")
     public String getPage() {
-        return "welcome";
+        return appKey;
     }
 
     // this is for testing
@@ -92,7 +96,7 @@ public class ApiCntroller {
     public Object paymentBody(@RequestBody PaymentData paymentContainer) {
 
         RestTemplate restTemplate = new RestTemplate();
-        String api = "FLWSECK_TEST-91d560bbdcddae17f003cb77bca3acaa-X";
+        String api = appKey;
         String url = "https://api.flutterwave.com/v3/charges?type=mobile_money_uganda";
         // create headers
         HttpHeaders headers = new HttpHeaders();
@@ -114,8 +118,8 @@ public class ApiCntroller {
         String phoneNumber = Long.toString(paymentContainer.getPhoneNumber());
         String network = paymentContainer.getNework();
         String redirect = paymentContainer.getRedirectUrl();
-        String paymentOption = paymentContainer.getPaymentOption();
-        String description = paymentContainer.getDescription();
+        // String paymentOption = paymentContainer.getPaymentOption();
+        // String description = paymentContainer.getDescription();
 
         // Object for payment process
         HashMap<String, String> map = new HashMap<>();
@@ -182,7 +186,7 @@ public class ApiCntroller {
     public Object flutterWaveTransctionHistory() {
         RestTemplate restTemplate = new RestTemplate();
 
-        String apiKey = "FLWSECK_TEST-91d560bbdcddae17f003cb77bca3acaa-X";
+        String apiKey = appKey;
 
         final String uri = "https://api.flutterwave.com/v3/transactions";
 
