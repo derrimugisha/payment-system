@@ -1,5 +1,10 @@
 # payment-system API
 
+#INTRODUCTION
+
+This is an API that is used to make payment requests to flutter wave API.<br>
+You can intergrate it in project to carry out online payements in your project.
+
 # HOW TO INSTALL
 
 -Clone the project to preffered directory.<br>
@@ -7,6 +12,12 @@
 VScode chechout https://code.visualstudio.com/docs/java/java-tutorial.<br>
 -Install MySQL server if you haven't installed.<br>
 -Install Postman if you don't have it on your machine.<br>
+
+# CONFIGURING THE API
+
+For the API to start running some configurations have to first be done, find application.properties file which is in payment-system/src/main/resources directory.<br>
+After getting the application.properties file, you fill in the required settings respectively.<br>
+For the sandbox.username and api.key are got from your flutter wave account https://flutterwave.com/.
 
 # RUNNING THE API
 
